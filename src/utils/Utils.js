@@ -155,15 +155,13 @@ function censorData(methodName, response) {
   }
 */
 
-// Push report to S3 and return report URL
+// Push report to local http server 
 function pushReportToS3(report) {
   console.log('REPORT: ', report);
-  // return fetch("http://192.168.0.89/savedata.php", {
   let publishURL = CONSTANTS.REPORT_PUBLISH_STANDALONE_URL;
   return fetch(publishURL, {
     "method": "POST",
     "body": report,
-    // "body": JSON.stringify(report),
   });
   return new Promise(async (resolve, reject) => {
     let result, err;
