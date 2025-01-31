@@ -137,13 +137,38 @@ function censorData(methodName, response) {
   return response;
 }
 
+/* function pushReportToS3(report) {
+  fetch('http://192.168.0.89/savedata.php', {
+  method: 'POST',
+  headers: {
+  'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(report)
+  })
+  .then(response => response.text())
+  .then(data => {
+  console.log('Report sent successfully:', data);
+  })
+  .catch((error) => {
+  console.error('Error sending report:', error);
+  });
+  }
+*/
+
 // Push report to S3 and return report URL
 function pushReportToS3(report) {
+  console.log('REPORT: ', report);
+  // return fetch("http://192.168.0.89/savedata.php", {
+  let publishURL = CONSTANTS.REPORT_PUBLISH_STANDALONE_URL;
+  return fetch(publishURL, {
+    "method": "POST",
+    "body": report,
+    // "body": JSON.stringify(report),
+  });
   return new Promise(async (resolve, reject) => {
-    const request = new XMLHttpRequest();
-    let macAddress, reportName;
     let result, err;
-
+    let macAddress, reportName;
+    const request = new XMLHttpRequest();
     const dt = new Date();
     const fileNameAppend = String(dt.getUTCFullYear()) + String(dt.getUTCMonth()) + String(dt.getUTCDate()) + String(dt.getUTCHours()) + String(dt.getUTCMinutes()) + String(dt.getUTCSeconds());
 
@@ -195,7 +220,7 @@ function pushReportToS3(report) {
     } catch (error) {
       logger.error(error, 'pushReportToS3');
       reportName = process.env.REPORTINGID && process.env.STANDALONE ? process.env.REPORTINGID + '-' + 'refAppExecReport' + '-' + fileNameAppend : uuid + '-' + 'refAppExecReport' + '-' + fileNameAppend;
-    }
+    }equest.send(report)
 
     let restApiUrl = CONSTANTS.REPORT_PUBLISH_URL + reportName + '.json';
 
@@ -210,7 +235,7 @@ function pushReportToS3(report) {
       logger.info(`You will be able to access your report shortly at: ${CONSTANTS.REPORT_PUBLISH_STANDALONE_REPORT_URL}${prefix}/${reportId}/report.html`, 'pushReportToS3');
     }
 
-    // Print report to copnsole
+    // Print report to console
     console.log('REPORT: ', report);
 
     logger.info('URL: ' + restApiUrl, 'pushReportToS3');
@@ -218,9 +243,10 @@ function pushReportToS3(report) {
     request.setRequestHeader('content-type', 'application/json');
 
     // CORS headers - Disable CORS verification by uncommenting below lines
-    request.setRequestHeader("Access-Control-Allow-Origin","*")
+    request.setRequestHeader("Access-Control-Allow-Origin","*");
     request.setRequestHeader('Access-Control-Allow-Methods','POST,OPTIONS');
     request.setRequestHeader('Access-Control-Allow-Headers','Origin, Content-Type');
+    // request.setRequestHeader('Access-Control-Allow-Credentials','true');
 
     request.send(report);
     request.onload = () => {
@@ -234,6 +260,7 @@ function pushReportToS3(report) {
     };
   });
 }
+
 
 /**
  * @function testDataHandler

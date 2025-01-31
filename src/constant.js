@@ -126,7 +126,8 @@ export const CONSTANTS = {
   DISABLE_VOICE_ANNOUNCEMENT: false,
   ENABLE_VOICE_ANNOUNCEMENT: true,
   TARGET_TO_BE_EXCLUDED: [],
-  METHODS_TO_BE_EXCLUDED: [],
+  // Exclude not implemented methods (accordo=ing to https://wikiprojects.upc.biz/display/CTOM/Firebolt+API+Implementation?src=contextnavpagetreemode) and methods verifying listeners as they are can be tested due we do not have FCS //
+  METHODS_TO_BE_EXCLUDED: ['Accessibility.closedCaptions', 'Accessibility.voiceGuidance ', 'Accessibility.onClosedCaptionsSettingsChanged', 'Accessibility.onVoiceGuidanceSettingsChanged', 'Accessibility.onAudioDescriptionSettingsChanged', 'Account.id', 'Advertising.onPolicyChanged', 'Device.onDeviceNameChanged', 'Device.onNameChanged', 'Device.onHdcpChanged', 'Device.onHdrChanged', 'Device.onAudioChanged', 'Device.onScreenResolutionChanged', 'Device.onVideoResolutionChanged', 'Device.onNetworkChanged', 'Discovery.policy', 'Discovery.entityInfo', 'Discovery.purchasedContent', 'Discovery.entitlements', 'Discovery.contentAccess', 'Discovery.clearContentAccess', 'Discovery.onNavigateTo', 'Discovery.userInterest', 'Discovery.onRequestUserInterest', 'Discovery.onPolicyChanged', 'Discovery.onPullEntityInfo', 'Discovery.onPullPurchasedContent', 'Discovery.userInterestResponse', 'Discovery.userInterestError', 'Internal.initialize', 'Keyboard.email', 'Keyboard.password', 'Keyboard.standard', 'Localization.onLocalityChanged', 'Localization.onPostalCodeChanged', 'Localization.onCountryCodeChanged', 'Localization.onLanguageChanged', 'Localization.onPreferredAudioLanguagesChanged', 'Localization.onLocaleChanged', ],
   METHODS_TO_BE_EXCLUDED_ONLY_DEVICES: [],
   PUBSUB_ACK: { pubSubStatus: 'Connection successful' },
   SUBSCRIBE: 'Subscribe',

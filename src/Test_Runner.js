@@ -345,6 +345,8 @@ export class Test_Runner {
 
     // Send report to S3 for all the executions
     utils.pushReportToS3(JSON.stringify(mochaReport));
+    
+    // utils.sendReportToServer(JSON.stringify(mochaReport));
 
     if (navigation == CONSTANTS.APP_NAVIGATION_MESSENGER) {
       return mochaReport;
